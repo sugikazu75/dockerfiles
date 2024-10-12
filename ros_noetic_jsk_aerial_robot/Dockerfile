@@ -1,20 +1,30 @@
-FROM osrf/ros:noetic-desktop-full
+FROM ubuntu:20.04
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt update && \
-    apt install -y -q wget sudo lsb-release gnupg git sed build-essential && \
-    source /opt/ros/noetic/setup.bash && \
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y && \
+    apt-get upgrade -y
+
+RUN apt-get install -y wget sudo lsb-release gnupg git sed build-essential
+
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+    apt-get install -y curl && \
+    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
+    apt-get update -y && \
+    apt-get install -y ros-noetic-desktop-full && \
+    apt-get install -y python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+
+RUN rosdep init && \
+    rosdep update
+
+RUN source /opt/ros/noetic/setup.bash && \
     mkdir -p ~/ros/jsk_aerial_robot_ws/src && \
     cd ~/ros/jsk_aerial_robot_ws && \
-    apt install -y python3-wstool python3-catkin-tools && \
     wstool init src && \
     wstool set -u -y -t src jsk_aerial_robot http://github.com/jsk-ros-pkg/jsk_aerial_robot --git && \
     wstool merge -t src src/jsk_aerial_robot/aerial_robot_${ROS_DISTRO}.rosinstall && \
     wstool update -t src && \
     rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO && \
-    source /opt/ros/noetic/setup.bash && \
-    catkin build && \
-    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && \
-    echo "source ~/ros/jsk_aerial_robot_ws/devel/setup.bash" >> ~/.bashrc && \
-    echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0" >> ~/.bashrc
+    catkin build
