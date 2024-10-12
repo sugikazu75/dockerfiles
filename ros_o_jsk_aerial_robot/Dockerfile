@@ -26,4 +26,4 @@ RUN source /opt/ros/one/setup.bash && \
     cd ~/ros/jsk_aerial_robot_ws && wstool merge -t src src/jsk_aerial_robot/aerial_robot_${ROS_DISTRO}.rosinstall && \
     wstool update -t src && \
     rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO || true && \
-    catkin build aerial_robot
+    catkin build aerial_robot --no-status

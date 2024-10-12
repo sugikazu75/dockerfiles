@@ -27,4 +27,4 @@ RUN source /opt/ros/noetic/setup.bash && \
     wstool merge -t src src/jsk_aerial_robot/aerial_robot_${ROS_DISTRO}.rosinstall && \
     wstool update -t src && \
     rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO && \
-    catkin build
+    catkin build --no-status
