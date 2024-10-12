@@ -15,5 +15,5 @@ jobs:
       run: |
         for dir in $(find . -mindepth 1 -maxdepth 1 -type d); do
           echo "Building Docker image for $dir"
-          docker build -t myimage:$dir $dir
+          docker build $dir
         done
