@@ -17,7 +17,7 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     apt-get install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools
 
 RUN rosdep init && \
-    rosdep update
+    rosdep update --include-eol-distros
 
 RUN source /opt/ros/melodic/setup.bash && \
     mkdir -p ~/ros/jsk_aerial_robot_ws/src && \
