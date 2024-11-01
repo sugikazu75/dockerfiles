@@ -7,7 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     apt-get upgrade -y
 
-RUN apt-get install -y wget sudo lsb-release gnupg git sed build-essential
+RUN apt-get install -y git emacs
+
+RUN apt-get install -y wget sudo lsb-release gnupg sed build-essential
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     apt-get install -y curl && \
