@@ -7,9 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     apt-get upgrade -y
 
-RUN apt-get install -y git
+RUN apt-get install -y git emacs
 
-RUN apt-get install -y vim less ca-certificates sudo bash-completion python3-pip git tmux python-is-python3 && \
+RUN apt-get install -y vim less ca-certificates sudo bash-completion python3-pip tmux python-is-python3 && \
     pip3 install catkin-tools && \
     echo "deb [trusted=yes] https://raw.githubusercontent.com/v4hn/ros-o-builder/jammy-one-unstable/repository ./" | sudo tee /etc/apt/sources.list.d/v4hn_ros-o-builder.list && \
     apt-get update && \
