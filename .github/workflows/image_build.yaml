@@ -37,4 +37,4 @@ jobs:
       with:
         context: ${{ matrix.dir }}
         push: true
-        tags: sugikazu75/${{ matrix.dir }}/latest
+        tags: sugikazu75/${{ matrix.dir }}:latest
