@@ -22,8 +22,8 @@ RUN apt-get install -y vim less ca-certificates sudo bash-completion python3-pip
 RUN source /opt/ros/one/setup.bash && \
     mkdir -p ~/ros/jsk_aerial_robot_ws/src && cd ~/ros/jsk_aerial_robot_ws && \
     wstool init src && \
-    cd ~/ros/jsk_aerial_robot_ws/src && git clone -b GA/jammy https://github.com/sugikazu75/jsk_aerial_robot.git && \
-    cd ~/ros/jsk_aerial_robot_ws && wstool merge -t src src/jsk_aerial_robot/aerial_robot_${ROS_DISTRO}.rosinstall && \
+    wstool set -u -y -t src jsk_aerial_robot http://github.com/jsk-ros-pkg/jsk_aerial_robot --git && \
+    wstool merge -t src src/jsk_aerial_robot/aerial_robot_${ROS_DISTRO}.rosinstall && \
     wstool update -t src && \
-    rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO || true && \
-    catkin build aerial_robot --no-status
+    rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO && \
+    catkin build --no-status
