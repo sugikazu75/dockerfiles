@@ -15,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dir: 
+        dir:
+          - latex
           - ros_melodic_jsk_aerial_robot
           - ros_noetic_jsk_aerial_robot
           - ros_o_jsk_aerial_robot
