@@ -19,7 +19,7 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     apt-get install -y python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential python3-catkin-tools
 
 RUN rosdep init && \
-    rosdep update
+    rosdep update --include-eol-distros
 
 RUN source /opt/ros/noetic/setup.bash && \
     mkdir -p ~/ros/jsk_aerial_robot_ws/src && \
