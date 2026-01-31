@@ -19,6 +19,7 @@ on:
         options:
           - all
           - latex
+          - ros_o
           - ros_o_jsk_aerial_robot
 
 jobs:
@@ -29,6 +30,7 @@ jobs:
       matrix:
         dir:
           - latex
+          - ros_o
           - ros_o_jsk_aerial_robot
 
     steps:
