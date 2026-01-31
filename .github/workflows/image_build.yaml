@@ -19,9 +19,6 @@ on:
         options:
           - all
           - latex
-          - ros_melodic_jsk_aerial_robot
-          - ros_noetic
-          - ros_noetic_jsk_aerial_robot
           - ros_o_jsk_aerial_robot
 
 jobs:
@@ -32,9 +29,6 @@ jobs:
       matrix:
         dir:
           - latex
-          - ros_melodic_jsk_aerial_robot
-          - ros_noetic
-          - ros_noetic_jsk_aerial_robot
           - ros_o_jsk_aerial_robot
 
     steps:
