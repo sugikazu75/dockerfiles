@@ -22,14 +22,30 @@ on:
           - ros_o
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        shell: bash
+        run: |
+          FULL_LIST='["latex", "ros_o"]'
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.target_dir }}" != "all" ]]; then
+            echo "Selected single target: ${{ inputs.target_dir }}"
+            echo "matrix=[\"${{ inputs.target_dir }}\"]" >> $GITHUB_OUTPUT
+          else
+            echo "Selected all targets"
+            echo "matrix=$FULL_LIST" >> $GITHUB_OUTPUT
+          fi
+
   build:
+    needs: setup
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        dir:
-          - latex
-          - ros_o
+        dir: ${{ fromJson(needs.setup.outputs.matrix) }}
 
     steps:
     - name: Checkout code
@@ -46,12 +62,6 @@ jobs:
 
     - name: Build and push
       uses: docker/build-push-action@v2
-      if: >-
-        ${{
-          github.event_name != 'workflow_dispatch' ||
-          inputs.target_dir == 'all' ||
-          inputs.target_dir == matrix.dir
-        }}
       with:
         context: ${{ matrix.dir }}
         push: true
