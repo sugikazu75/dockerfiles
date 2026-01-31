@@ -8,7 +8,19 @@ on:
   schedule:
     - cron: '0 0 * * 0'
   workflow_dispatch:
-
+    inputs:
+      target_dir:
+        description:
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - latex
+          - ros_melodic_jsk_aerial_robot
+          - ros_noetic
+          - ros_noetic_jsk_aerial_robot
+          - ros_o_jsk_aerial_robot
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +33,13 @@ jobs:
           - ros_noetic
           - ros_noetic_jsk_aerial_robot
           - ros_o_jsk_aerial_robot
+    if: >-
+      ${{
+        github.event_name != 'workflow_dispatch' ||
+        inputs.target_dir == 'all' ||
+        inputs.target_dir == matrix.dir
+      }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
